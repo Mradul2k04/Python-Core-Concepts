@@ -1,7 +1,7 @@
 import random 
 
-stake=int(input("Enter name of the stake holder : "))
-goals=int(input("Enter your goals : "))
+stake=int(input("Enter name of the stake holder(in $) : "))
+goals=int(input("Enter your goals(in $) : "))
 trials=int(input("Enter number of trials : "))
 win=0
 total_bets=0
