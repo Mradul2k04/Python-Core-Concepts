@@ -5,7 +5,7 @@ coupon_num=[]
 count=0
 
 while len(coupon_num) <num:
-    digit=random.randint(0,num-1)
+    digit=random.randint(0,num)
     count+=1
     if digit not in coupon_num:
         coupon_num.append(digit)
