@@ -48,8 +48,7 @@ class CurrentAccount(Account):
 print("---------Bank System---------")
 acc=[]
 obj1=SavingAccount(50000,"Mradul",5)
-
-obj1.add_interset()
+obj1.deposit(1000)
 obj2=CurrentAccount(500000,"Anuj",100)
 
 acc.append(obj1)
