@@ -46,3 +46,4 @@ Device.append(obj1)
 Device.append(obj2)
 for i in Device:
     i.operate()
+    
