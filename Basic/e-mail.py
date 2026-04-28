@@ -10,4 +10,3 @@ pattern= r"[a-zA-Z]+\d+"
 matches=re.findall(pattern,String)
 
 print(matches)
-
