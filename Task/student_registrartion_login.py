@@ -28,73 +28,77 @@
 import re
 import json
 import os
-Data_file="registrartion_data.json"
+class StudentSystem:
+    def __init__(self):
+        self.new_details={}
+        self.file_path="Task\\Data_file.json"
+        self.__password=None
+        
+        
+    def Registration(self):
+        print("------------Registration Page----------")
+        self.stu_name=input("Enter your Name :")
+        self.stu_address=input("Enter your Address :")
+        self.stu_id=input("Enter your ID :")
+        password=input("Enter your password :")
 
-def Registration():
-    print("------------Registration Page----------")
-    stu_name=input("Enter your Name :")
-    stu_address=input("Enter your Address :")
-    stu_id=input("Enter your ID :")
-    password=input("Enter your password :")
-
-    stu_name_patt=r'^[A-Za-z\s]{3,30}$'
-    stu_address_patt=r'^[A-Za-z0-9\s,.\-/]{10,100}$'
-    stu_id_patt=r'^STU\d{4}$'
-    password_patt=r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@$%&*])[^\s]{8,16}$'
-    
-    if not re.fullmatch(stu_name_patt,stu_name):
-        print ("Error :Name must be letters/spaces (3-30 chars) " )
+        stu_name_patt=r'^[A-Za-z\s]{3,30}$'
+        stu_address_patt=r'^[A-Za-z0-9\s,.\-/]{10,100}$'
+        stu_id_patt=r'^STU\d{4}$'
+        password_patt=r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@$%&*])[^\s]{8,16}$'
         
-    elif not re.fullmatch(stu_address_patt,stu_address):
-        print ("Error: Address is too short or contains invalid characters.")
-        
-    elif not re.fullmatch(stu_id_patt,stu_id):
-        print ("Error: ID must start with STU followed by 4 digits.")
-        
-    elif not re.fullmatch(password_patt,password):
-        print ("Error: Password must have 1 Upper, 1 Lower, 1 Digit, 1 Special (8-16 chars).")
-    else:
-        print("Registration Successful ")
-        stu_details={"Name":stu_name,
-                     "id":stu_id,
-                     "Adderss":stu_address,
-                     "password":password}
-        with open("Task\Data_file","w") as f:
-            json.dump(stu_details,f)
-            return stu_id,password
-        
+        if not re.fullmatch(stu_name_patt,self.stu_name):
+            print ("Error :Name must be letters/spaces (3-30 chars) " )
+            
+        elif not re.fullmatch(stu_address_patt,self.stu_address):
+            print ("Error: Address is too short or contains invalid characters.")
+            
+        elif not re.fullmatch(stu_id_patt,self.stu_id):
+            print ("Error: ID must start with STU followed by 4 digits.")
+            
+        elif not re.fullmatch(password_patt,password):
+            print ("Error: Password must have 1 Upper, 1 Lower, 1 Digit, 1 Special (8-16 chars).")
+        else:
+            print("Registration Successful ")
+            self.__password=password
+            self.new_details={"Name":self.stu_name,
+                        "id":self.stu_id,
+                        "Adderss":self.stu_address,
+                        "password":self.__password}
+            with open(self.file_path,"w") as f:
+                json.dump(self.new_details,f)
+                return self.stu_id,self.__password
+            
 #Login
-
-def Login(reg_id,reg_pass):
-    print("----------Login Page----------")
-    stu_id=input("Enter Login ID :")
-    stu_pass=input("Enter you password :")
-    
-    if stu_id==reg_id and stu_pass==reg_pass:
-        print("Login Successful !")
-    else:
-        print("Invalid ID or password")
-        return Login(reg_id,reg_pass)
-    
-    
+    def Login(self,reg_id,reg_pass):
+        print("----------Login Page----------")
+        stu_id=input("Enter Login ID :")
+        stu_pass=input("Enter you password :")
+        
+        if stu_id==reg_id and stu_pass==reg_pass:
+            print("Login Successful !")
+        else:
+            print("Invalid ID or password")
+        
+        
 def Main():
     print("\n1.Registration New Account")
     print("2 Login to Your Account")
     choice=input("Select Option (1 or 2)")
-    
+    portal = StudentSystem()
     if choice=="1":
-        reg_id,reg_pass=Registration()
-        Login(reg_id,reg_pass)
+        reg_id,reg_pass=portal.Registration()
+        portal.Login(reg_id,reg_pass)
     elif choice =="2":
-        if os.path.exists("Task\Data_file"):
-            with open("Task\Data_file","r") as f:
+        if os.path.exists(portal.file_path):
+            with open(portal.file_path,"r") as f:
                 stored_details=json.load(f)
-                Login(stored_details["id"],stored_details["password"])
+                portal.Login(stored_details["id"],stored_details["password"])
                 print("Welcome Back !")
         else:
             print("No data found")
             Main()
     else:
         print("Invalid Choice ")
-        Main()
-Main()        
+        Main()  
+Main()     
